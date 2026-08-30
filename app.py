@@ -26,6 +26,11 @@ app.config["MYSQL_HOST"] = os.environ.get(
     "localhost"
 )
 
+app.config["MYSQL_PORT"] = int(os.environ.get(
+    "MYSQL_PORT",
+    3306
+))
+
 app.config["MYSQL_USER"] = os.environ.get(
     "MYSQL_USER",
     "root"
