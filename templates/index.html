@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SVP Cafe</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <h2>☕ SVP Cafe</h2>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a href="/">Home</a></li>
+
+            <li><a href="/menu">Menu</a></li>
+
+            <li><a href="/login">Login</a></li>
+
+            <li><a href="/register">Register</a></li>
+
+            <li><a href="/cart">Cart</a></li>
+
+            <li><a href="/checkout">Checkout</a></li>
+
+        </ul>
+
+    </div>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>Welcome to SVP Cafe</h1>
+
+        <p>Fresh Coffee • Burgers • Pizza • Milkshakes</p>
+
+        <a href="/menu" class="hero-btn">Order Now</a>
+
+    </div>
+
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+
+<section class="products">
+
+    <h2 class="section-title">Featured Products</h2>
+
+    <div class="product-container">
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/coffee1.jpg') }}" alt="Coffee">
+
+            <div class="card-body">
+
+                <h3>Cappuccino</h3>
+
+                <p class="price">₹149</p>
+
+                <a href="#" class="buy-btn">Add to Cart</a>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/burger.jpg') }}" alt="Burger">
+
+            <div class="card-body">
+
+                <h3>Veg Burger</h3>
+
+                <p class="price">₹199</p>
+
+                <a href="#" class="buy-btn">Add to Cart</a>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/pizza.jpg') }}" alt="Pizza">
+
+            <div class="card-body">
+
+                <h3>Cheese Pizza</h3>
+
+                <p class="price">₹299</p>
+
+                <a href="#" class="buy-btn">Add to Cart</a>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <img src="{{ url_for('static', filename='images/shake.jpg') }}" alt="Milkshake">
+
+            <div class="card-body">
+
+                <h3>Chocolate Shake</h3>
+
+                <p class="price">₹179</p>
+
+                <a href="#" class="buy-btn">Add to Cart</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about">
+
+    <div class="about-text">
+
+        <h2>About SVP Cafe</h2>
+
+        <p>
+
+            Welcome to SVP Cafe! We are passionate about serving freshly brewed coffee,
+            delicious burgers, crispy pizzas, refreshing milkshakes, and many more tasty
+            treats. Our goal is to provide the best food and beverages with excellent
+            customer service in a warm and welcoming atmosphere.
+
+        </p>
+
+    </div>
+
+    <img src="{{ url_for('static', filename='images/hero.png') }}" alt="Cafe">
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact">
+
+    <h2>Contact Us</h2>
+
+    <p>📍 SVP Cafe, India</p>
+
+    <p>📞 +91 8328618422</p>
+
+    <p>✉ svpcafe@gmail.com</p>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    © 2026 SVP Cafe | All Rights Reserved
+
+</footer>
+
+</body>
+
+</html>

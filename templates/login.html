@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVP Cafe - Login</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .login-section{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            background:#f8f5f2;
+            padding-top:90px;
+        }
+
+        .login-box{
+            width:400px;
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            box-shadow:0 10px 30px rgba(0,0,0,.2);
+        }
+
+        .login-box h2{
+            text-align:center;
+            color:#4b2e2b;
+            margin-bottom:30px;
+        }
+
+        .login-box input{
+            width:100%;
+            padding:15px;
+            margin:10px 0;
+            border:1px solid #ccc;
+            border-radius:8px;
+            font-size:16px;
+        }
+
+        .login-btn{
+            width:100%;
+            padding:15px;
+            border:none;
+            border-radius:8px;
+            background:#ff9800;
+            color:white;
+            font-size:18px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .login-btn:hover{
+            background:#ff6f00;
+        }
+
+        .register-link{
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .register-link a{
+            color:#ff9800;
+            text-decoration:none;
+            font-weight:bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="navbar">
+
+<div class="logo">
+<h2>☕ SVP Cafe</h2>
+</div>
+
+<ul class="nav-links">
+<li><a href="/">Home</a></li>
+<li><a href="/menu">Menu</a></li>
+<li><a href="/login">Login</a></li>
+<li><a href="/register">Register</a></li>
+<li><a href="/cart">Cart</a></li>
+<li><a href="/checkout">Checkout</a></li>
+</ul>
+
+</div>
+
+</header>
+
+<section class="login-section">
+
+<div class="login-box">
+
+<h2>Login</h2>
+
+<form action="/login" method="POST">
+
+<input type="text" name="username" placeholder="Username" required>
+
+<input type="password" name="password" placeholder="Password" required>
+
+<p style="text-align:right; margin-top:5px;">
+    <a href="/forgot_password">Forgot Password?</a>
+</p>
+
+<button type="submit" class="login-btn">Login</button>
+
+</form>
+
+<div class="register-link">
+
+<p>Don't have an account?</p>
+
+<a href="/register">Create Account</a>
+
+</div>
+
+</div>
+
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>View Orders</title>
+
+    <style>
+
+        *{
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f5f5f5;
+            padding:30px;
+            margin:0;
+        }
+
+        h2{
+            text-align:center;
+            color:#6F4E37;
+            margin-bottom:25px;
+        }
+
+        /* Back Button */
+
+        .back{
+            display:inline-block;
+            margin-bottom:20px;
+            padding:10px 18px;
+            background:#6F4E37;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        .back:hover{
+            background:#4b2e2b;
+        }
+
+        /* Search Section */
+
+        .filter-box{
+            background:white;
+            padding:25px;
+            border-radius:10px;
+            margin-bottom:25px;
+            box-shadow:0 5px 15px rgba(0,0,0,.15);
+        }
+
+        .filter-box form{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .filter-box input,
+        .filter-box select{
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            font-size:15px;
+        }
+
+        .search-input{
+            width:300px;
+        }
+
+        .filter-box button{
+            padding:12px 22px;
+            background:#6F4E37;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:15px;
+        }
+
+        .filter-box button:hover{
+            background:#4b2e2b;
+        }
+
+        .clear-btn{
+            padding:12px 22px;
+            background:#777;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+        }
+
+        .clear-btn:hover{
+            background:#555;
+        }
+
+        /* Table */
+
+        .table-container{
+            overflow-x:auto;
+            background:white;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.15);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th,
+        td{
+            border:1px solid #ccc;
+            padding:12px;
+            text-align:center;
+        }
+
+        th{
+            background:#6F4E37;
+            color:white;
+            white-space:nowrap;
+        }
+
+        tr:hover{
+            background:#f9f3ef;
+        }
+
+        /* Status Form */
+
+        .status-form select{
+            padding:8px;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        .status-form button{
+            margin-top:8px;
+            padding:8px 15px;
+            background:#2196f3;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        .status-form button:hover{
+            background:#1976d2;
+        }
+
+        /* Details Button */
+
+        .details-btn{
+            display:inline-block;
+            padding:8px 14px;
+            background:#ff9800;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        .details-btn:hover{
+            background:#e68900;
+        }
+
+        /* No Orders */
+
+        .no-orders{
+            text-align:center;
+            padding:30px;
+            color:red;
+            font-size:18px;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:15px;
+            }
+
+            .search-input{
+                width:100%;
+            }
+
+            .filter-box form{
+                flex-direction:column;
+            }
+
+            .filter-box input,
+            .filter-box select,
+            .filter-box button,
+            .clear-btn{
+                width:100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<a href="/admin_dashboard" class="back">
+    ← Back to Dashboard
+</a>
+
+<h2>🛒 Customer Orders</h2>
+
+
+<!-- SEARCH AND FILTER -->
+
+<div class="filter-box">
+
+    <form action="/view_orders" method="GET">
+
+        <input
+            type="text"
+            name="search"
+            class="search-input"
+            placeholder="🔎 Search Order ID, Username, Customer..."
+            value="{{ search }}"
+        >
+
+        <select name="status">
+
+            <option value="">All Status</option>
+
+            <option value="Pending"
+                {% if status_filter == "Pending" %}selected{% endif %}>
+                Pending
+            </option>
+
+            <option value="Preparing"
+                {% if status_filter == "Preparing" %}selected{% endif %}>
+                Preparing
+            </option>
+
+            <option value="Out for Delivery"
+                {% if status_filter == "Out for Delivery" %}selected{% endif %}>
+                Out for Delivery
+            </option>
+
+            <option value="Delivered"
+                {% if status_filter == "Delivered" %}selected{% endif %}>
+                Delivered
+            </option>
+
+            <option value="Cancelled"
+                {% if status_filter == "Cancelled" %}selected{% endif %}>
+                Cancelled
+            </option>
+
+        </select>
+
+        <input
+            type="date"
+            name="date"
+            value="{{ date_filter }}"
+        >
+
+        <button type="submit">
+            🔎 Search / Filter
+        </button>
+
+        <a href="/view_orders" class="clear-btn">
+            🔄 Clear
+        </a>
+
+    </form>
+
+</div>
+
+
+<!-- ORDERS TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<tr>
+
+    <th>Order ID</th>
+    <th>Username</th>
+    <th>Products</th>
+    <th>Customer Name</th>
+    <th>Phone</th>
+    <th>Address</th>
+    <th>Payment</th>
+    <th>Total</th>
+    <th>Order Date</th>
+    <th>Status</th>
+    <th>Action</th>
+    <th>Details</th>
+
+</tr>
+
+
+{% if orders %}
+
+    {% for order in orders %}
+
+    <tr>
+
+        <td>
+            {{ order[0] }}
+        </td>
+
+        <td>
+            {{ order[1] }}
+        </td>
+
+        <td>
+            {{ order[2] }}
+        </td>
+
+        <td>
+            {{ order[3] }}
+        </td>
+
+        <td>
+            {{ order[4] }}
+        </td>
+
+        <td>
+            {{ order[5] }}
+        </td>
+
+        <td>
+            {{ order[6] }}
+        </td>
+
+        <td>
+            ₹{{ order[7] }}
+        </td>
+
+        <td>
+            {{ order[8] }}
+        </td>
+
+        <td>
+            {{ order[9] }}
+        </td>
+
+
+        <!-- UPDATE STATUS -->
+
+        <td>
+
+            <form
+                action="/update_order_status/{{ order[0] }}"
+                method="POST"
+                class="status-form"
+            >
+
+                <select name="status">
+
+                    <option value="Pending"
+                        {% if order[9] == "Pending" %}selected{% endif %}>
+                        Pending
+                    </option>
+
+                    <option value="Preparing"
+                        {% if order[9] == "Preparing" %}selected{% endif %}>
+                        Preparing
+                    </option>
+
+                    <option value="Out for Delivery"
+                        {% if order[9] == "Out for Delivery" %}selected{% endif %}>
+                        Out for Delivery
+                    </option>
+
+                    <option value="Delivered"
+                        {% if order[9] == "Delivered" %}selected{% endif %}>
+                        Delivered
+                    </option>
+
+                    <option value="Cancelled"
+                        {% if order[9] == "Cancelled" %}selected{% endif %}>
+                        Cancelled
+                    </option>
+
+                </select>
+
+                <br>
+
+                <button type="submit">
+                    Update
+                </button>
+
+            </form>
+
+        </td>
+
+
+        <!-- DETAILS -->
+
+        <td>
+
+            <a
+                href="/order_details/{{ order[0] }}"
+                class="details-btn"
+            >
+                View Details
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+{% else %}
+
+    <tr>
+
+        <td colspan="12" class="no-orders">
+            ❌ No orders found.
+        </td>
+
+    </tr>
+
+{% endif %}
+
+
+</table>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product - SVP Cafe</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f5f5;
+            margin:0;
+            padding:0;
+        }
+
+        .container{
+            width:450px;
+            margin:40px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2{
+            text-align:center;
+            color:brown;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:10px 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+            box-sizing:border-box;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:orange;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        button:hover{
+            background:darkorange;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>Add New Product</h2>
+
+<form method="POST">
+
+    <input type="text" name="product_name" placeholder="Product Name" required>
+
+    <input type="number" name="price" placeholder="Price" required>
+
+    <input type="number"
+           name="stock"
+           placeholder="Enter Stock"
+           required>
+
+    <input type="text" name="image" placeholder="Image File Name (example: coffee.jpg)" required>
+    
+    
+
+    <button type="submit">Add Product</button>
+
+</form>
+
+</div>
+    
+</body>
+</html>

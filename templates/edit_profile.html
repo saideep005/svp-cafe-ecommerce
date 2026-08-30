@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+        }
+
+        .container{
+            width:450px;
+            margin:40px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px gray;
+        }
+
+        h2{
+            text-align:center;
+            color:#2c3e50;
+        }
+
+        input,textarea{
+            width:100%;
+            padding:10px;
+            margin-top:8px;
+            margin-bottom:18px;
+            border:1px solid #ccc;
+            border-radius:5px;
+            font-size:16px;
+        }
+
+        textarea{
+            height:100px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:green;
+            color:white;
+            border:none;
+            border-radius:5px;
+            font-size:18px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:darkgreen;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Edit Profile</h2>
+
+<form method="POST">
+
+<label>Full Name</label>
+<input type="text"
+name="fullname"
+value="{{ user[0] }}"
+required>
+
+<label>Email</label>
+<input type="email"
+name="email"
+value="{{ user[1] }}"
+required>
+
+<label>Phone</label>
+<input type="text"
+name="phone"
+value="{{ user[3] if user[3] else '' }}">
+
+<label>Address</label>
+<textarea
+name="address">{{ user[4] if user[4] else '' }}</textarea>
+
+<button type="submit">
+Update Profile
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

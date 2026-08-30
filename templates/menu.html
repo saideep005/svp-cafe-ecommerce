@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SVP Cafe - Menu</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <h2>☕ SVP Cafe</h2>
+
+        </div>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="/">Home</a>
+            </li>
+
+            <li>
+                <a href="/menu">Menu</a>
+            </li>
+
+
+            {% if "username" in session %}
+
+                <li>
+                    <a href="/cart">🛒 Cart</a>
+                </li>
+
+                <li>
+                    <a href="/wishlist">❤️ Wishlist</a>
+                </li>
+
+                <li>
+                    <a href="/checkout">Checkout</a>
+                </li>
+
+                <li>
+                    <a href="/order_history">
+                        📋 Order History
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/profile">👤 Profile</a>
+                </li>
+
+                <li class="username-item">
+
+                    <a href="#">
+                        👤 {{ session["username"] }}
+                    </a>
+
+                </li>
+
+                <li>
+                    <a href="/logout">
+                        🚪 Logout
+                    </a>
+                </li>
+
+
+            {% else %}
+
+                <li>
+                    <a href="/login">Login</a>
+                </li>
+
+                <li>
+                    <a href="/register">Register</a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MENU SECTION
+========================= -->
+
+<section class="products">
+
+
+    <h2 class="section-title">
+        Our Menu
+    </h2>
+
+
+
+    <!-- =========================
+         AVAILABLE COUPONS
+    ========================= -->
+
+    {% if coupons %}
+
+    <div class="coupon-section">
+
+        <h2 class="section-title">
+            🎟️ Available Coupons
+        </h2>
+
+
+        <div class="coupon-container">
+
+
+            {% for coupon in coupons %}
+
+            <div class="coupon-card">
+
+
+                <div class="coupon-icon">
+                    🎟️
+                </div>
+
+
+                <div class="coupon-info">
+
+
+                    <h3>
+                        {{ coupon[0] }}
+                    </h3>
+
+
+                    <p>
+                        Get
+                        <strong>
+                            {{ coupon[1] }}% OFF
+                        </strong>
+                    </p>
+
+
+                    {% if coupon[2] %}
+
+                    <small>
+                        Valid until:
+                        {{ coupon[2] }}
+                    </small>
+
+                    {% else %}
+
+                    <small>
+                        No expiry date
+                    </small>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <div class="coupon-code">
+
+                    {{ coupon[0] }}
+
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- =========================
+         SEARCH
+    ========================= -->
+
+    <div class="search-section">
+
+
+        <form action="/menu"
+              method="GET">
+
+
+            <input
+                type="text"
+                name="search"
+                placeholder="🔍 Search products..."
+                value="{{ search }}"
+                class="search-input">
+
+
+            <button
+                type="submit"
+                class="search-btn">
+
+                Search
+
+            </button>
+
+
+            <a
+                href="/menu"
+                class="clear-btn">
+
+                Clear
+
+            </a>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <div class="category-buttons">
+
+
+        <a href="/menu?category=All"
+           class="category-btn category-all">
+
+            🍽 All
+
+        </a>
+
+
+        <a href="/menu?category=Coffee"
+           class="category-btn category-coffee">
+
+            ☕ Coffee
+
+        </a>
+
+
+        <a href="/menu?category=Tea"
+           class="category-btn category-tea">
+
+            🍵 Tea
+
+        </a>
+
+
+        <a href="/menu?category=Bun"
+           class="category-btn category-bun">
+
+            🥯 Bun
+
+        </a>
+
+
+        <a href="/menu?category=Burger"
+           class="category-btn category-burger">
+
+            🍔 Burger
+
+        </a>
+
+
+        <a href="/menu?category=Pizza"
+           class="category-btn category-pizza">
+
+            🍕 Pizza
+
+        </a>
+
+
+        <a href="/menu?category=Shakes"
+           class="category-btn category-shakes">
+
+            🥤 Shake
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
+
+    <div class="product-container">
+
+
+        {% if products %}
+
+
+            {% for product in products %}
+
+
+            <div class="card">
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <img
+                    src="{{ url_for('static', filename='images/' + product[3]) }}"
+                    alt="{{ product[1] }}">
+
+
+
+                <div class="card-body">
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <h3>
+
+                        <a
+                            href="/product/{{ product[0] }}"
+                            class="product-name">
+
+                            {{ product[1] }}
+
+                        </a>
+
+                    </h3>
+
+
+
+                    <!-- PRICE -->
+
+                    <p class="price">
+
+                        ₹{{ product[2] }}
+
+                    </p>
+
+
+
+                    <!-- STOCK -->
+
+                    <p class="stock-display">
+
+                        Stock:
+                        {{ product[5] }}
+
+                    </p>
+
+
+
+                    {% if product[5]|int > 0 %}
+
+
+                        <!-- ADD TO CART -->
+
+                        <a
+                            href="/add_to_cart/{{ product[0] }}"
+                            class="buy-btn">
+
+                            Add to Cart
+
+                        </a>
+
+
+                        <br><br>
+
+
+
+                        <!-- WRITE REVIEW -->
+
+                        <a
+                            href="/review/{{ product[0] }}"
+                            class="review-btn">
+
+                            ⭐ Write Review
+
+                        </a>
+
+
+                    {% else %}
+
+
+                        <!-- OUT OF STOCK -->
+
+                        <button
+                            class="buy-btn out-of-stock"
+                            disabled>
+
+                            Out of Stock
+
+                        </button>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <h2 class="no-products">
+
+                No products found.
+
+            </h2>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    © 2026 SVP Cafe | All Rights Reserved
+
+</footer>
+
+
+</body>
+
+</html>

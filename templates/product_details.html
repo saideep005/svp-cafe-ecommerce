@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f5f5f5;
+            margin:0;
+        }
+
+        .container{
+            width:70%;
+            margin:40px auto;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            display:flex;
+            gap:40px;
+        }
+
+        img{
+            width:350px;
+            height:350px;
+            object-fit:cover;
+            border-radius:10px;
+        }
+
+        .details{
+            flex:1;
+        }
+
+        h1{
+            color:#2e7d32;
+        }
+
+        h2{
+            color:#ff5722;
+        }
+
+        p{
+            font-size:18px;
+        }
+
+        .stock{
+            color:green;
+            font-weight:bold;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:20px;
+            padding:12px 25px;
+            background:#2e7d32;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+        }
+
+        .btn:hover{
+            background:#1b5e20;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <img src="{{ url_for('static', filename='images/' + product[3]) }}">
+
+    <div class="details">
+
+        <h1>{{ product[1] }}</h1>
+
+        <h2>₹{{ product[2] }}</h2>
+
+        <p><b>Category:</b> {{ product[4] }}</p>
+
+        <p class="stock">Stock Available : {{ product[5] }}</p>
+
+        <p>
+            Enjoy our delicious {{ product[1] }} made with fresh ingredients.
+            Perfect for every customer at SVP Cafe.
+        </p>
+
+        <a href="/add_to_cart/{{ product[0] }}" class="btn">
+    Add To Cart
+</a>
+
+&nbsp;
+
+<a href="/add_to_wishlist/{{ product[0] }}" class="btn">
+    ❤️ Add To Wishlist
+</a>
+
+&nbsp;
+
+<a href="/menu" class="btn">
+    Back To Menu
+</a>
+
+    </div>
+
+</div>
+
+
+
+<h2 style="text-align:center;">Customer Reviews</h2>
+
+{% if reviews %}
+
+    {% for r in reviews %}
+
+        <div style="width:70%; margin:20px auto; border:1px solid #ddd; padding:15px; border-radius:8px; background:white; box-shadow:0 0 5px rgba(0,0,0,0.2);">
+            <strong>{{ r[0] }}</strong><br>
+
+            ⭐ {{ r[1] }}/5
+
+            <p>{{ r[2] }}</p>
+
+            <small>{{ r[3] }}</small>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>No reviews yet.</p>
+
+{% endif %}
+
+</body>
+</html>

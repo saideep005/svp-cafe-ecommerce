@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SVP Cafe - Checkout</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+
+.checkout-section{
+    width:60%;
+    margin:120px auto 50px;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.checkout-section h2{
+    text-align:center;
+    color:#4b2e2b;
+    margin-bottom:30px;
+    font-size:38px;
+}
+
+.checkout-section input,
+.checkout-section textarea,
+.checkout-section select{
+    width:100%;
+    padding:15px;
+    margin:12px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+.checkout-btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    background:#ff9800;
+    color:white;
+    font-size:20px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.checkout-btn:hover{
+    background:#ff6f00;
+}
+
+.order-summary{
+    background:#f8f5f2;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:25px;
+}
+
+.order-summary h3{
+    color:#4b2e2b;
+    margin-bottom:15px;
+}
+
+.order-summary p{
+    font-size:18px;
+    margin:8px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="navbar">
+
+<div class="logo">
+<h2>☕ SVP Cafe</h2>
+</div>
+
+<ul class="nav-links">
+<li><a href="/">Home</a></li>
+<li><a href="/menu">Menu</a></li>
+<li><a href="/cart">Cart</a></li>
+<li><a href="/checkout">Checkout</a></li>
+</ul>
+
+</div>
+
+</header>
+
+<div class="checkout-section">
+
+<h2>Checkout</h2>
+
+<div class="order-summary">
+
+<h3>Order Summary</h3>
+
+<p><strong>Total Amount : ₹{{ total }}</strong></p>
+
+</div>
+
+<form method="POST">
+
+<input
+type="text"
+name="customer_name"
+placeholder="Full Name"
+required>
+
+<input
+type="text"
+name="phone"
+placeholder="Phone Number"
+required>
+
+<textarea
+name="address"
+rows="4"
+placeholder="Delivery Address"
+required></textarea>
+
+<select
+name="payment_method"
+required>
+
+<option value="">Select Payment Method</option>
+
+<option value="Cash on Delivery">
+Cash on Delivery
+</option>
+
+<option value="UPI">
+UPI
+</option>
+
+<option value="Credit Card">
+Credit Card
+</option>
+
+<option value="Debit Card">
+Debit Card
+</option>
+
+<option value="Net Banking">
+Net Banking
+</option>
+
+</select>
+
+<input
+type="text"
+name="coupon"
+placeholder="Enter Coupon Code (Optional)">
+
+<button
+type="submit"
+class="checkout-btn">
+
+Place Order
+
+</button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin - Customer Reviews</title>
+
+    <style>
+
+        *{
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f4f4f4;
+            margin:0;
+            padding:30px;
+        }
+
+        h1{
+            text-align:center;
+            color:#6F4E37;
+            margin-bottom:25px;
+        }
+
+        /* Back Button */
+
+        .back-btn{
+            display:inline-block;
+            margin-bottom:20px;
+            padding:10px 20px;
+            background:#6F4E37;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        .back-btn:hover{
+            background:#4b2e2b;
+        }
+
+        /* Search Section */
+
+        .filter-box{
+            width:95%;
+            margin:0 auto 25px auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 5px 15px rgba(0,0,0,.15);
+        }
+
+        .filter-box form{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .filter-box input,
+        .filter-box select{
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            font-size:15px;
+        }
+
+        .search-input{
+            width:320px;
+        }
+
+        .filter-box button{
+            padding:12px 20px;
+            background:#6F4E37;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            font-size:15px;
+        }
+
+        .filter-box button:hover{
+            background:#4b2e2b;
+        }
+
+        .clear-btn{
+            padding:12px 20px;
+            background:#777;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+        }
+
+        .clear-btn:hover{
+            background:#555;
+        }
+
+        /* Table */
+
+        .table-container{
+            width:95%;
+            margin:auto;
+            overflow-x:auto;
+            background:white;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th{
+            background:#6F4E37;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:12px;
+            border:1px solid #ddd;
+            text-align:center;
+        }
+
+        tr:nth-child(even){
+            background:#f9f9f9;
+        }
+
+        tr:hover{
+            background:#f5eee9;
+        }
+
+        /* Delete Button */
+
+        .delete-btn{
+            background:red;
+            color:white;
+            padding:8px 15px;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        .delete-btn:hover{
+            background:darkred;
+        }
+
+        /* No Reviews */
+
+        .no-reviews{
+            text-align:center;
+            color:red;
+            padding:25px;
+            font-size:18px;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:15px;
+            }
+
+            .filter-box,
+            .table-container{
+                width:100%;
+            }
+
+            .filter-box form{
+                flex-direction:column;
+            }
+
+            .search-input,
+            .filter-box input,
+            .filter-box select,
+            .filter-box button,
+            .clear-btn{
+                width:100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<a href="/admin_dashboard" class="back-btn">
+    ← Back to Dashboard
+</a>
+
+<h1>⭐ Customer Reviews</h1>
+
+
+<!-- SEARCH AND FILTER -->
+
+<div class="filter-box">
+
+    <form action="/admin/reviews" method="GET">
+
+        <input
+            type="text"
+            name="search"
+            class="search-input"
+            placeholder="🔎 Search username, product or review..."
+            value="{{ search }}"
+        >
+
+        <select name="rating">
+
+            <option value="">
+                All Ratings
+            </option>
+
+            <option value="5"
+                {% if rating_filter == "5" %}selected{% endif %}>
+                ⭐⭐⭐⭐⭐ 5 Stars
+            </option>
+
+            <option value="4"
+                {% if rating_filter == "4" %}selected{% endif %}>
+                ⭐⭐⭐⭐ 4 Stars
+            </option>
+
+            <option value="3"
+                {% if rating_filter == "3" %}selected{% endif %}>
+                ⭐⭐⭐ 3 Stars
+            </option>
+
+            <option value="2"
+                {% if rating_filter == "2" %}selected{% endif %}>
+                ⭐⭐ 2 Stars
+            </option>
+
+            <option value="1"
+                {% if rating_filter == "1" %}selected{% endif %}>
+                ⭐ 1 Star
+            </option>
+
+        </select>
+
+        <button type="submit">
+            🔎 Search / Filter
+        </button>
+
+        <a href="/admin/reviews" class="clear-btn">
+            🔄 Clear
+        </a>
+
+    </form>
+
+</div>
+
+
+<!-- REVIEWS TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<tr>
+
+    <th>Username</th>
+    <th>Product</th>
+    <th>Rating</th>
+    <th>Review</th>
+    <th>Date</th>
+    <th>Action</th>
+
+</tr>
+
+
+{% if reviews %}
+
+    {% for r in reviews %}
+
+    <tr>
+
+        <td>
+            {{ r[0] }}
+        </td>
+
+        <td>
+            {{ r[1] }}
+        </td>
+
+        <td>
+            ⭐ {{ r[2] }}/5
+        </td>
+
+        <td>
+            {{ r[3] }}
+        </td>
+
+        <td>
+            {{ r[4] }}
+        </td>
+
+        <td>
+
+            <a
+                href="/delete_review/{{ r[5] }}"
+                class="delete-btn"
+                onclick="return confirm('Are you sure you want to delete this review?');"
+            >
+                🗑 Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+{% else %}
+
+    <tr>
+
+        <td colspan="6" class="no-reviews">
+            ❌ No reviews found.
+        </td>
+
+    </tr>
+
+{% endif %}
+
+
+</table>
+
+</div>
+
+</body>
+
+</html>
