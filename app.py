@@ -1,6 +1,6 @@
-
-from flask import Flask, render_template, request, redirect, session, flash
-from flask_mysqldb import MySQL
+from flask import Flask, render_template, request, redirect, session, flash, g
+import pymysql
+pymysql.install_as_MySQLdb()
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 import random
@@ -10,6 +10,8 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from flask import send_file
 import os
+import socket
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get(
@@ -21,38 +23,54 @@ app.secret_key = os.environ.get(
 # MYSQL CONFIGURATION
 # =========================
 
-app.config["MYSQL_HOST"] = os.environ.get(
-    "MYSQL_HOST",
-    "localhost"
-)
 
-app.config["MYSQL_PORT"] = int(os.environ.get(
-    "MYSQL_PORT",
-    3306
-))
+app.config["MYSQL_HOST"] = os.environ.get("MYSQL_HOST")
+app.config["MYSQL_PORT"] = int(os.environ.get("MYSQL_PORT", 4000))
+app.config["MYSQL_USER"] = os.environ.get("MYSQL_USER")
+app.config["MYSQL_PASSWORD"] = os.environ.get("MYSQL_PASSWORD")
+app.config["MYSQL_DB"] = os.environ.get("MYSQL_DB")
 
-app.config["MYSQL_USER"] = os.environ.get(
-    "MYSQL_USER",
-    "root"
-)
+app.config["MYSQL_CUSTOM_OPTIONS"] = {
+    "ssl_mode": "REQUIRED",
+    "ssl": {
+        "ca": os.path.join(os.path.dirname(__file__), "ca.pem")
+    }
+}
 
-app.config["MYSQL_PASSWORD"] = os.environ.get(
-    "MYSQL_PASSWORD"
-)
+class MySQLCompat:
+    @property
+    def connection(self):
+        if "db" not in g:
+            g.db = pymysql.connect(
+               host="75.2.106.174",
+                port=app.config["MYSQL_PORT"],
+                user=app.config["MYSQL_USER"],
+                password=app.config["MYSQL_PASSWORD"],
+                database=app.config["MYSQL_DB"],
+                ssl_verify_cert=True,
+                ssl_verify_identity=False,
+                ssl_ca=os.path.join(os.path.dirname(__file__), "ca.pem")
+            )
+        return g.db
 
-app.config["MYSQL_DB"] = os.environ.get(
-    "MYSQL_DB",
-    "svp_cafe"
-)
 
-mysql = MySQL(app)
+mysql = MySQLCompat()
+
+
+@app.teardown_appcontext
+def close_db(error=None):
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
 
 # =========================
 # EMAIL CONFIGURATION
 # =========================
 
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
+
 app.config["MAIL_PORT"] = 587
+
 app.config["MAIL_USE_TLS"] = True
 
 app.config["MAIL_USERNAME"] = os.environ.get(
@@ -63,11 +81,6 @@ app.config["MAIL_PASSWORD"] = os.environ.get(
     "MAIL_PASSWORD"
 )
 
-app.config["MAIL_DEFAULT_SENDER"] = os.environ.get(
-    "MAIL_USERNAME"
-)
-
-
 app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
 
 mail = Mail(app)
@@ -75,6 +88,7 @@ mail = Mail(app)
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -87,7 +101,11 @@ def login():
         cur = mysql.connection.cursor()
 
         cur.execute(
-            "SELECT * FROM users WHERE username=%s",
+            """
+            SELECT username, password
+            FROM users
+            WHERE username=%s
+            """,
             (username,)
         )
 
@@ -95,11 +113,26 @@ def login():
 
         cur.close()
 
-        if user and check_password_hash(user[4], password):
-            session["username"] = username
-            return redirect("/menu")
-        else:
+        if user is None:
             return "Invalid Username or Password"
+
+        stored_password = user[1]
+
+        try:
+            password_correct = check_password_hash(
+                stored_password,
+                password
+            )
+        except Exception:
+            password_correct = False
+
+        if password_correct:
+
+            session["username"] = user[0]
+
+            return redirect("/menu")
+
+        return "Invalid Username or Password"
 
     return render_template("login.html")
 
@@ -170,6 +203,9 @@ def menu():
     )
 
     products = cur.fetchall()
+
+    print("CATEGORY:", category)
+    print("PRODUCT COUNT:", len(products))
 
 
 
@@ -2384,4 +2420,4 @@ def admin_sales_report():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run()

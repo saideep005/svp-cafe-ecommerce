@@ -1097,10 +1097,13 @@ footer{
     background:#CD5C5C;
 }
 
-.category-shakes{
+.category-shake{
     background:#C71585;
 }
 
+.category-juice { 
+    background: #c2a827;
+}
 
 /* =========================
    PRODUCT NAME
