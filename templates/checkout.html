@@ -4,113 +4,487 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>SVP Cafe - Checkout</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
 
 <style>
 
-.checkout-section{
-    width:60%;
-    margin:120px auto 50px;
-    background:white;
-    padding:40px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
+* {
+    box-sizing: border-box;
 }
 
-.checkout-section h2{
-    text-align:center;
-    color:#4b2e2b;
-    margin-bottom:30px;
-    font-size:38px;
+body {
+    margin: 0;
+    padding: 0;
 }
+
+
+/* ==========================================
+   CHECKOUT SECTION
+   ========================================== */
+
+.checkout-section {
+    width: 60%;
+    max-width: 900px;
+
+    margin: 120px auto 50px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+
+/* ==========================================
+   CHECKOUT TITLE
+   ========================================== */
+
+.checkout-section h2 {
+    text-align: center;
+
+    color: #4b2e2b;
+
+    margin-bottom: 30px;
+
+    font-size: 38px;
+}
+
+
+/* ==========================================
+   FORM FIELDS
+   ========================================== */
 
 .checkout-section input,
 .checkout-section textarea,
-.checkout-section select{
-    width:100%;
-    padding:15px;
-    margin:12px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:16px;
-    box-sizing:border-box;
+.checkout-section select {
+
+    width: 100%;
+
+    padding: 15px;
+
+    margin: 12px 0;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    box-sizing: border-box;
 }
 
-.checkout-btn{
-    width:100%;
-    padding:16px;
-    border:none;
-    background:#ff9800;
-    color:white;
-    font-size:20px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:.3s;
+.checkout-section textarea {
+    resize: vertical;
 }
 
-.checkout-btn:hover{
-    background:#ff6f00;
+
+/* ==========================================
+   CHECKOUT BUTTON
+   ========================================== */
+
+.checkout-btn {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: none;
+
+    background: #ff9800;
+
+    color: white;
+
+    font-size: 20px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: .3s;
 }
 
-.order-summary{
-    background:#f8f5f2;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:25px;
+.checkout-btn:hover {
+    background: #ff6f00;
 }
 
-.order-summary h3{
-    color:#4b2e2b;
-    margin-bottom:15px;
+
+/* ==========================================
+   ORDER SUMMARY
+   ========================================== */
+
+.order-summary {
+
+    background: #f8f5f2;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    margin-bottom: 25px;
 }
 
-.order-summary p{
-    font-size:18px;
-    margin:8px 0;
+.order-summary h3 {
+
+    color: #4b2e2b;
+
+    margin-bottom: 15px;
+
+    font-size: 24px;
+}
+
+.order-summary p {
+
+    font-size: 18px;
+
+    margin: 8px 0;
+}
+
+
+/* ==========================================
+   MOBILE RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    html,
+    body {
+
+        width: 100%;
+        max-width: 100%;
+
+        margin: 0;
+        padding: 0;
+
+        overflow-x: hidden;
+    }
+
+
+    /* ------------------------------------------
+       MOBILE NAVBAR
+       ------------------------------------------ */
+
+    .navbar {
+
+        width: 100% !important;
+
+        min-width: 0 !important;
+
+        padding: 12px 8px !important;
+
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        gap: 8px !important;
+    }
+
+
+    .logo {
+
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    .logo h2 {
+
+        margin: 5px 0;
+
+        font-size: 22px !important;
+    }
+
+
+    .nav-links {
+
+        width: 100% !important;
+
+        display: flex !important;
+
+        flex-wrap: wrap !important;
+
+        justify-content: center !important;
+
+        align-items: center !important;
+
+        gap: 5px !important;
+
+        padding: 0 !important;
+
+        margin: 0 !important;
+
+        list-style: none !important;
+    }
+
+
+    .nav-links li {
+
+        margin: 0 !important;
+
+        padding: 0 !important;
+    }
+
+
+    .nav-links a {
+
+        display: inline-block !important;
+
+        padding: 7px 8px !important;
+
+        margin: 0 !important;
+
+        font-size: 13px !important;
+
+        white-space: nowrap;
+    }
+
+
+    /* ------------------------------------------
+       CHECKOUT BOX
+       ------------------------------------------ */
+
+    .checkout-section {
+
+        width: 94% !important;
+
+        max-width: 94% !important;
+
+        min-width: 0 !important;
+
+        margin: 30px auto 40px !important;
+
+        padding: 20px !important;
+
+        border-radius: 14px !important;
+
+        box-shadow: 0 5px 18px rgba(0,0,0,.15) !important;
+    }
+
+
+    /* ------------------------------------------
+       CHECKOUT TITLE
+       ------------------------------------------ */
+
+    .checkout-section h2 {
+
+        font-size: 28px !important;
+
+        line-height: 1.2;
+
+        margin: 5px 0 22px !important;
+    }
+
+
+    /* ------------------------------------------
+       ORDER SUMMARY
+       ------------------------------------------ */
+
+    .order-summary {
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        margin: 0 0 20px 0 !important;
+
+        padding: 16px !important;
+
+        border-radius: 10px !important;
+
+        overflow: hidden;
+    }
+
+
+    .order-summary h3 {
+
+        font-size: 21px !important;
+
+        margin: 0 0 12px 0 !important;
+    }
+
+
+    .order-summary p {
+
+        font-size: 17px !important;
+
+        line-height: 1.4;
+
+        margin: 5px 0 !important;
+
+        overflow-wrap: break-word;
+    }
+
+
+    /* ------------------------------------------
+       FORM
+       ------------------------------------------ */
+
+    .checkout-section form {
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        min-width: 0 !important;
+    }
+
+
+    /* ------------------------------------------
+       INPUTS
+       ------------------------------------------ */
+
+    .checkout-section input,
+    .checkout-section textarea,
+    .checkout-section select {
+
+        display: block;
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        min-width: 0 !important;
+
+        padding: 14px !important;
+
+        margin: 10px 0 !important;
+
+        font-size: 16px !important;
+
+        border-radius: 8px !important;
+    }
+
+
+    /* ------------------------------------------
+       ADDRESS
+       ------------------------------------------ */
+
+    .checkout-section textarea {
+
+        min-height: 130px;
+
+        resize: vertical;
+    }
+
+
+    /* ------------------------------------------
+       PAYMENT SELECT
+       ------------------------------------------ */
+
+    .checkout-section select {
+
+        background: white;
+
+        height: 52px;
+    }
+
+
+    /* ------------------------------------------
+       PLACE ORDER BUTTON
+       ------------------------------------------ */
+
+    .checkout-btn {
+
+        display: block;
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+
+        padding: 14px 10px !important;
+
+        margin-top: 12px !important;
+
+        font-size: 17px !important;
+
+        border-radius: 9px !important;
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="navbar">
 
 <div class="logo">
+
 <h2>☕ SVP Cafe</h2>
+
 </div>
 
+
 <ul class="nav-links">
-<li><a href="/">Home</a></li>
-<li><a href="/menu">Menu</a></li>
-<li><a href="/cart">Cart</a></li>
-<li><a href="/checkout">Checkout</a></li>
+
+<li>
+<a href="/">Home</a>
+</li>
+
+<li>
+<a href="/menu">Menu</a>
+</li>
+
+<li>
+<a href="/cart">Cart</a>
+</li>
+
+<li>
+<a href="/checkout">Checkout</a>
+</li>
+
 </ul>
 
 </div>
 
 </header>
 
+
 <div class="checkout-section">
 
-<h2>Checkout</h2>
+
+<h2>
+Checkout
+</h2>
+
 
 <div class="order-summary">
 
-<h3>Order Summary</h3>
+<h3>
+Order Summary
+</h3>
 
-<p><strong>Total Amount : ₹{{ total }}</strong></p>
+<p>
+<strong>
+Total Amount : ₹{{ total }}
+</strong>
+</p>
 
 </div>
 
+
 <form method="POST">
+
 
 <input
 type="text"
@@ -118,11 +492,13 @@ name="customer_name"
 placeholder="Full Name"
 required>
 
+
 <input
 type="text"
 name="phone"
 placeholder="Phone Number"
 required>
+
 
 <textarea
 name="address"
@@ -130,11 +506,14 @@ rows="4"
 placeholder="Delivery Address"
 required></textarea>
 
+
 <select
 name="payment_method"
 required>
 
-<option value="">Select Payment Method</option>
+<option value="">
+Select Payment Method
+</option>
 
 <option value="Cash on Delivery">
 Cash on Delivery
@@ -158,10 +537,12 @@ Net Banking
 
 </select>
 
+
 <input
 type="text"
 name="coupon"
 placeholder="Enter Coupon Code (Optional)">
+
 
 <button
 type="submit"
@@ -171,9 +552,12 @@ Place Order
 
 </button>
 
+
 </form>
 
+
 </div>
+
 
 </body>
 

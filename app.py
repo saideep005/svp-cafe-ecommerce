@@ -11,7 +11,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from flask import send_file
 import os
 import socket
-
+import resend
 
 app = Flask(__name__)
 app.secret_key = os.environ.get(
@@ -84,6 +84,20 @@ app.config["MAIL_PASSWORD"] = os.environ.get(
 app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
 
 mail = Mail(app)
+
+resend.api_key = os.environ.get("RESEND_API_KEY")
+
+
+def send_resend_email(msg):
+    resend.Emails.send({
+        "from": os.environ.get(
+            "RESEND_FROM_EMAIL",
+            "onboarding@resend.dev"
+        ),
+        "to": msg.recipients,
+        "subject": msg.subject,
+        "text": msg.body or ""
+    })
 
 @app.route("/")
 def home():
@@ -866,7 +880,7 @@ Thank you for choosing SVP Cafe! ☕
 SVP Cafe
 """
 
-            mail.send(msg)
+            send_resend_email(msg)
 
             print("Order confirmation email sent successfully.")
 
@@ -1540,7 +1554,7 @@ def test_mail():
 
     msg.body = "Congratulations! Flask-Mail is working successfully."
 
-    mail.send(msg)
+    send_resend_email(msg)
 
     return "Email Sent Successfully!"
 
@@ -1578,7 +1592,7 @@ def forgot_password():
 
         msg.body = f"Your OTP for password reset is: {otp}"
 
-        mail.send(msg)
+        send_resend_email(msg)
 
         return redirect("/verify_otp")
 
@@ -2024,7 +2038,7 @@ SVP Cafe Team
 
             try:
 
-                mail.send(msg)
+                send_resend_email(msg)
 
                 print(
                     "Order cancellation email sent successfully."
@@ -2074,7 +2088,7 @@ SVP Cafe Team
 
             try:
 
-                mail.send(msg)
+                send_resend_email(msg)
 
                 print(
                     "Out for Delivery email sent successfully."
@@ -2196,7 +2210,7 @@ Thank you,
 SVP Cafe Team ☕
 """
 
-                mail.send(msg)
+                send_resend_email(msg)
 
     cur.close()
 
